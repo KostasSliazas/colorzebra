@@ -504,16 +504,18 @@
       createDivs();
       getButtos();
 
+      let count = 0;
+
       function getButtos() {
         let elem = document.getElementsByClassName("buttons");
-
         for (let i = 0; i < elem.length; i++) {
           elem[i].addEventListener("click", function (e) {
-            let color = document.getElementById("inputColor").value = this.getElementsByClassName("colors")[1]
+            let color = this.getElementsByClassName("colors")[1]
               .innerText.substr(this.innerText);
 
-            if (e.target.classList.contains('sent')) {
+           if (e.target.classList.contains('sent')&& color !== document.getElementById("inputColor").value) {
               setColorsTo(color);
+              document.getElementById("inputColor").value = color;
             }
 
             if (e.target.classList.contains('views')) {
@@ -591,7 +593,8 @@
       }
 
       w.addEventListener("click", (e) => colorToInput(e), true);
-      document.getElementById("saveHTML").addEventListener("click", () => downloadInnerHtml("colors"+ Math.floor(Math.random() * 9999)+".html", "datatable",
+      document.getElementById("saveHTML").addEventListener("click", () => downloadInnerHtml("colors" + Math.floor(Math
+          .random() * 9999) + ".html", "datatable",
         "text/html"));
     };
   </script>
