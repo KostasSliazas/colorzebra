@@ -379,7 +379,7 @@
 
 <body>
   <div class="boxh1">
-    <a href="https://kostassliazas.000webhostapp.com/templates/colorzebra/index.html">
+    <a href="/">
       <h1>Colorzebra</h1>
     </a>
   </div>
@@ -591,7 +591,7 @@
       }
 
       w.addEventListener("click", (e) => colorToInput(e), true);
-      document.getElementById("saveHTML").addEventListener("click", () => downloadInnerHtml("colors.html", "datatable",
+      document.getElementById("saveHTML").addEventListener("click", () => downloadInnerHtml("colors"+ Math.floor(Math.random() * 9999)+".html", "datatable",
         "text/html"));
     };
   </script>
