@@ -584,6 +584,13 @@
         }
       }
 
+      function colorToInput(e) {
+        let col = e.target.parentElement.style.backgroundColor;
+        if (col)
+          document.getElementById("inputColor").value = col;
+      }
+
+      w.addEventListener("click", (e) => colorToInput(e), true);
       document.getElementById("saveHTML").addEventListener("click", () => downloadInnerHtml("colors.html", "datatable",
         "text/html"));
     };
