@@ -566,20 +566,15 @@
         let elem = document.getElementsByClassName("buttons");
         for (let i = 0; i < elem.length; i++) {
           elem[i].addEventListener("click", function (e) {
-            let color = this.getElementsByClassName("colors")[1]
-              .innerText.substr(this.innerText);
-
+            let color = this.getElementsByClassName("colors")[1].innerText.substr(this.innerText);
             if (e.target.classList.contains('sent') && color !== document.getElementById("inputColor").value) {
               setColorsTo(color);
-              document.getElementById("inputColor").value = color;
             }
-
+            document.getElementById("inputColor").value = color;
             if (e.target.classList.contains('views')) {
               mixColor();
-              getButtos();
               w.scrollTop = 0;
             }
-
             getMyColor();
           });
         }
