@@ -567,12 +567,13 @@
         for (let i = 0; i < elem.length; i++) {
           elem[i].addEventListener("click", function (e) {
             let color = this.getElementsByClassName("colors")[1].innerText.substr(this.innerText);
-            if (e.target.classList.contains('sent') && color !== document.getElementById("inputColor").value) {
+            if (e.target.classList.contains('sent')) {
               setColorsTo(color);
             }
             document.getElementById("inputColor").value = color;
             if (e.target.classList.contains('views')) {
               mixColor();
+              getButtos();
               w.scrollTop = 0;
             }
             getMyColor();
