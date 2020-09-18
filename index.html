@@ -22,7 +22,7 @@
 
     body {
       margin: 0;
-      background: #aaa;
+      background: #FAF7EE;
     }
 
     * {
@@ -41,11 +41,18 @@
       box-shadow: var(--shadow);
     }
 
+    .toltip.he {
+      text-align: center;
+      width: 100%;
+      font-size: 10px;
+      display: block;
+    }
+
     .control1 {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
       grid-template-rows: 48px;
-      grid-template-areas: "savehtml colorshad colarrows";
+      grid-template-areas: "savehtml colorshad colarrows labarrows";
       grid-area: control1;
       overflow: hidden;
     }
@@ -60,6 +67,10 @@
 
     .colarrows {
       grid-area: colarrows;
+    }
+
+    .label {
+      grid-area: labarrows;
     }
 
     .control2 {
@@ -100,6 +111,40 @@
       overflow-x: hidden;
       scrollbar-width: thin;
       background: #aaa;
+    }
+
+    .label {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .toggle-state:checked~.indicator {
+      transform: translate3d(25%, 0, 0);
+      background: #2fc483;
+    }
+
+    .toggle-state {
+      display: none;
+    }
+
+    .indicator {
+      height: 100%;
+      width: 200%;
+      background: #aaa;
+      transform: translate3d(-75%, 0, 0);
+      transition: transform .1s cubic-bezier(.85, .05, .18, 1.35);
+    }
+
+    .toggle {
+      background: #fff;
+      isolation: isolate;
+      height: 52%;
+      width: 95%;
+      overflow: hidden;
+      border: 1px solid #aaa;
     }
 
     @media only screen and (max-width: 600px) {
@@ -320,7 +365,9 @@
       margin: 0;
       padding: 0;
       font-size: inherit;
-      line-height: inherit
+      line-height: inherit;
+      border: 1px solid #aaa;
+      box-sizing: border-box;
     }
 
     input {
@@ -385,12 +432,17 @@
     <div class="control1">
       <div class="savehtml"><button id="saveHTML">save HTML</button></div>
       <div class="colorshad"><button id="buttonMycolors">Color</button></div>
+      <label class="label">
+        <div class="toggle bg">
+          <input class="toggle-state" type="checkbox" name="check" id="bgset">
+          <div class="indicator"></div>
+        </div>
+        <div class="toltip he" title="Set body background from selected color">Set bg</div>
+      </label>
       <div class="colarrows">
         <div class="arows">
-          <div class="uarrow"></div>
-          <input type="number" min="2" max="130" value="119" id="inter" required="">
+          <input type="number" min="2" max="130" value="119" id="inter" required="" title="value for good contrast">
           <div class="toltip he">Interval</div>
-          <div class="darrow"></div>
         </div>
       </div>
     </div>
@@ -429,6 +481,7 @@
       let e = document.getElementById("divcolorsi");
       let w = document.getElementById("datatable");
       let b = document.body;
+      let c = document.getElementById("bgset");
 
       const rgbMake = function (R = 0, G = 0, B = 0) {
         let colors = `rgb(${R <= 255 ? R : 0},${G <= 255 ? G : 0},${B <= 255 ? B : 0})`;
@@ -535,7 +588,8 @@
 
           if (checked) {
             index = i;
-            b.style.background = colorfil;
+            if (c.checked) b.style.background = colorfil;
+            else b.style.background = "#FAF7EE";
             colo[i].style.background = colorfil;
             colo[i].firstElementChild.innerText = colorfil;
           }
@@ -584,8 +638,11 @@
 
       function colorToInput(e) {
         let col = e.target.parentElement.style.backgroundColor;
-        if (col)
+        if (col) {
           document.getElementById("inputColor").value = col;
+          if (c.checked) b.style.background = col;
+          else b.style.background = "#FAF7EE";
+        }
       }
 
       w.addEventListener("click", (e) => colorToInput(e), true);
