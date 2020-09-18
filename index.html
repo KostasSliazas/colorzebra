@@ -122,7 +122,7 @@
     }
 
     .toggle-state:checked~.indicator {
-      transform: translate3d(25%, 0, 0);
+      transform: translate3d(100%, 0, 0);
       background: #2fc483;
     }
 
@@ -130,11 +130,18 @@
       display: none;
     }
 
+    #inter {
+      width: 95%;
+      left: 4%;
+      position: relative;
+    }
+
     .indicator {
       height: 100%;
-      width: 200%;
-      background: #aaa;
-      transform: translate3d(-75%, 0, 0);
+      width: 50%;
+      border: 2px solid #fff;
+      background: #ccc;
+      transform: translate3d(0, 0, 0);
       transition: transform .1s cubic-bezier(.85, .05, .18, 1.35);
     }
 
