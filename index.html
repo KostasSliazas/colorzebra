@@ -52,7 +52,7 @@
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 1fr;
       grid-template-rows: 48px;
-      grid-template-areas: "savehtml colorshad colarrows labarrows";
+      grid-template-areas: "savehtml labarrows colarrows colorshad";
       grid-area: control1;
       overflow: hidden;
     }
@@ -158,6 +158,14 @@
       overflow: hidden;
       border: 1px solid #aaa;
       margin: 2px 0;
+    }
+
+    .locker {
+      position: absolute;
+      top: 0;
+      padding: 12px;
+      cursor: pointer;
+      z-index: 1;
     }
 
     @media only screen and (max-width: 600px) {
@@ -465,10 +473,11 @@
       </div>
     </div>
     <div id="datatable" class="colordata">
-      <span class="filc"><span></span><input type="radio" name="colro" checked=""></span>
-      <span class="filc"><span></span><input type="radio" name="colro"></span>
-      <span class="filc"><span></span><input type="radio" name="colro"></span>
-      <span class="filc"><span></span><input type="radio" name="colro"></span>
+      <span class="filc"><span></span><span class="locker">&#128275;</span><input type="radio" name="colro"
+          checked=""></span>
+      <span class="filc"><span></span><span class="locker">&#128275;</span><input type="radio" name="colro"></span>
+      <span class="filc"><span></span><span class="locker">&#128275;</span><input type="radio" name="colro"></span>
+      <span class="filc"><span></span><span class="locker">&#128275;</span><input type="radio" name="colro"></span>
     </div>
     <div class="colorlist">
       <div id="divcolorsi"></div>
@@ -495,6 +504,7 @@
       let w = document.getElementById("datatable");
       let b = document.body;
       let c = document.getElementById("bgset");
+      const ran = document.querySelector("#datatable");
 
       const rgbMake = function (R = 0, G = 0, B = 0) {
         let colors = `rgb(${R <= 255 ? R : 0},${G <= 255 ? G : 0},${B <= 255 ? B : 0})`;
@@ -574,7 +584,7 @@
           elem[i].addEventListener("click", function (e) {
             let color = this.getElementsByClassName("colors")[1].innerText.substr(this.innerText);
             if (e.target.classList.contains('sent')) {
-              e.target.style.pointerEvents = "none";
+              // e.target.style.pointerEvents = "none";
               setColorsTo(color);
             }
             document.getElementById("inputColor").value = color;
@@ -592,35 +602,30 @@
 
       function setColorsTo(colorfil) {
         let colo = w.getElementsByClassName("filc");
-
         for (let i = 0; i < colo.length; i++) {
-          let checked = colo[i].children[1].checked || 0;
-
-          if (checked) {
-            index = i;
+          let checked = colo[i].children[2];
+          if (checked.checked && !checked.disabled) {
             if (c.checked) b.style.background = colorfil;
             else b.style.background = "#FAF7EE";
             colo[i].style.background = colorfil;
             colo[i].firstElementChild.innerText = colorfil;
+            index = i;
           }
         }
-
         index = (index + 1) % colo.length;
-        colo[index].children[1].checked = true;
+        colo[index].children[2].checked = true;
       }
-
-      const ran = document.querySelector("#datatable");
 
       let downloadInnerHtml = function (filename, elId, mimeType) {
         let lemget = document.getElementById(elId);
         let elemes = lemget.getElementsByClassName("filc");
         let elHtml = '<!DOCTYPE html>' + '<html lang="en">' + '<head>' + '<meta charset="UTF-8">' +
           '<meta name="viewport" content="width=device-width, initial-scale=1.0">' + '<title>Colors</title>' +
-          '</head>' + '<body style="margin:0">';
+          '</head>' + '<body style="margin:0; height: 100vh">';
 
         for (let i = 0; i < elemes.length; ++i) {
           elHtml += '<p style="background:' + (elemes[i].style.backgroundColor || "transparent") +
-            ';height:100px;width:100%;margin:0 auto;line-height:100px;text-align:center;">' + elemes[i].style
+            ';height:25%;width:100%;margin:0 auto;line-height:80px;text-align:center;">' + elemes[i].style
             .backgroundColor + '</p>';
         }
         elHtml += '<\/body><\/html>';
@@ -646,7 +651,19 @@
         }
       }
 
+      function toggleLock() {
+        this.innerHTML === "🔓" ? (this.innerHTML = "🔒", this.nextElementSibling.setAttribute("disabled", true)) : (
+          this.innerHTML = "🔓", this.nextElementSibling.removeAttribute("disabled"));
+        return;
+      }
+
+      const lock = document.getElementsByClassName("locker");
+      [...lock].forEach(e => {
+        e.addEventListener("click", toggleLock);
+      })
+
       function colorToInput(e) {
+        e.checked = true;
         let col = e.target.parentElement.style.backgroundColor;
         if (col) {
           document.getElementById("inputColor").value = col;
