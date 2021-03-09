@@ -122,6 +122,7 @@ function init () {
         colo[i].style.background = colorfil
         colo[i].firstElementChild.innerText = colorfil
         index = i
+        toggleLock.call(colo[i].children[1])
       }
     }
     index = (index + 1) % colo.length
